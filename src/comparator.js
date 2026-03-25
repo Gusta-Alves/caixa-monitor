@@ -21,7 +21,6 @@ async function findNewItems(filteredItems) {
   const currentIds = filteredItems.map((item) => item.id);
   const today = new Date().toISOString().slice(0, 10);
 
-  // Primeira execução: salva baseline e não envia e-mail
   if (previousIds === null) {
     logger.info('Primeira execução — salvando baseline. Nenhum e-mail será enviado.');
 
@@ -40,7 +39,6 @@ async function findNewItems(filteredItems) {
     return { newItems: [], totalFiltered: filteredItems.length, totalNew: 0, isFirstRun: true };
   }
 
-  // Execuções seguintes: compara e atualiza
   const newItems = filteredItems.filter((item) => !previousIds.has(item.id));
 
   if (filteredItems.length > 0) {

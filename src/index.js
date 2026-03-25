@@ -46,13 +46,15 @@ async function main() {
   }
 }
 
-// Execução imediata na inicialização
-main();
-
-// Agendamento via cron
-cron.schedule(CRON_SCHEDULE, () => {
-  logger.info('Execução agendada pelo cron iniciada.');
+if (process.env.GITHUB_ACTIONS === 'true') {
+  main().then(() => process.exit(0));
+} else {
   main();
-});
 
-logger.info(`Scheduler ativo. Próxima execução: cron(${CRON_SCHEDULE}).`);
+  cron.schedule(CRON_SCHEDULE, () => {
+    logger.info('Execução agendada pelo cron iniciada.');
+    main();
+  });
+
+  logger.info(`Scheduler ativo. Próxima execução: cron(${CRON_SCHEDULE}).`);
+}
