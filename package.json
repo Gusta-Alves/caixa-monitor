@@ -1,0 +1,23 @@
+{
+  "name": "caixa-monitor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.13.6",
+    "axios-retry": "^4.5.0",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^17.3.1",
+    "handlebars": "^4.7.8",
+    "iconv-lite": "^0.7.2",
+    "node-cron": "^4.2.1",
+    "nodemailer": "^8.0.3",
+    "winston": "^3.19.0"
+  }
+}

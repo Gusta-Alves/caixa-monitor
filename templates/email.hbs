@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monitor Caixa — Novos Imóveis SP</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f2f2f2;font-family:Arial,Helvetica,sans-serif;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f2f2f2;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+
+        <!-- Container -->
+        <table width="620" cellpadding="0" cellspacing="0" border="0" style="max-width:620px;width:100%;">
+
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#005CA9;border-radius:8px 8px 0 0;padding:28px 32px;text-align:center;">
+              <p style="margin:0;font-size:11px;font-weight:bold;letter-spacing:2px;color:#a8d0f0;text-transform:uppercase;">Caixa Econômica Federal</p>
+              <h1 style="margin:8px 0 0;font-size:24px;font-weight:bold;color:#ffffff;">Monitor Caixa — Novos Imóveis SP</h1>
+            </td>
+          </tr>
+
+          <!-- Subtitle bar -->
+          <tr>
+            <td style="background-color:#004a8a;padding:14px 32px;text-align:center;">
+              <p style="margin:0;font-size:15px;color:#dceeff;">
+                <strong style="color:#ffffff;">{{totalNew}}</strong> novo(s) imóvel(is) com desconto &gt; 40% encontrado(s) em <strong style="color:#ffffff;">{{date}}</strong>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Summary -->
+          <tr>
+            <td style="background-color:#ffffff;padding:16px 32px;border-bottom:1px solid #e0e0e0;">
+              <p style="margin:0;font-size:13px;color:#555555;">
+                Total de imóveis com &gt;40% de desconto nesta lista: <strong style="color:#005CA9;">{{totalFiltered}}</strong>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Items -->
+          {{#each newItems}}
+          <tr>
+            <td style="padding:12px 32px 0;">
+
+              <!-- Card -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0"
+                style="background-color:#ffffff;border-radius:6px;border:1px solid #d8e6f3;margin-bottom:4px;">
+                <tr>
+                  <!-- Left accent bar -->
+                  <td width="6" style="background-color:#005CA9;border-radius:6px 0 0 6px;">&nbsp;</td>
+                  <td style="padding:18px 20px;">
+
+                    <!-- City / Neighborhood -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td>
+                          <p style="margin:0;font-size:16px;font-weight:bold;color:#005CA9;">
+                            {{cidade}}
+                            <span style="font-weight:normal;color:#777777;font-size:14px;">— {{bairro}}</span>
+                          </p>
+                          <p style="margin:4px 0 0;font-size:13px;color:#444444;">{{endereco}}</p>
+                        </td>
+                        <!-- Discount badge -->
+                        <td width="80" valign="top" align="right">
+                          <span style="display:inline-block;background-color:#1a8a3c;color:#ffffff;font-size:14px;font-weight:bold;padding:6px 10px;border-radius:4px;">
+                            -{{desconto}}%
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Divider -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:14px 0;">
+                      <tr><td style="border-top:1px solid #eeeeee;"></td></tr>
+                    </table>
+
+                    <!-- Pricing row -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <td>
+                          <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:1px;">Preço de venda</p>
+                          <p style="margin:4px 0 0;font-size:20px;font-weight:bold;color:#1a8a3c;">{{preco}}</p>
+                        </td>
+                        <td width="20"></td>
+                        <td>
+                          <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:1px;">Valor de avaliação</p>
+                          <p style="margin:4px 0 0;font-size:15px;color:#999999;text-decoration:line-through;">{{valorAvaliacao}}</p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Modalidade -->
+                    <p style="margin:12px 0 0;font-size:12px;color:#555555;">
+                      <strong style="color:#333333;">Modalidade:</strong> {{modalidade}}
+                    </p>
+
+                    <!-- Descrição -->
+                    <p style="margin:6px 0 0;font-size:12px;color:#666666;line-height:1.5;">
+                      {{truncate descricao 100}}{{#if (gt descricao.length 100)}}…{{/if}}
+                    </p>
+
+                    <!-- CTA Button -->
+                    <table cellpadding="0" cellspacing="0" border="0" style="margin-top:16px;">
+                      <tr>
+                        <td style="background-color:#005CA9;border-radius:4px;">
+                          <a href="{{link}}"
+                            style="display:inline-block;padding:10px 22px;font-size:13px;font-weight:bold;color:#ffffff;text-decoration:none;">
+                            Ver Imóvel &rarr;
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+          {{/each}}
+
+          <!-- Spacer -->
+          <tr><td style="height:20px;"></td></tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#333333;border-radius:0 0 8px 8px;padding:18px 32px;text-align:center;">
+              <p style="margin:0;font-size:11px;color:#aaaaaa;">
+                Gerado automaticamente em {{date}} — Monitor Caixa Imóveis<br/>
+                <span style="color:#777777;">Este e-mail foi enviado por um robô. Não responda a esta mensagem.</span>
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Container -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
