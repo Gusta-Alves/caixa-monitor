@@ -49,7 +49,7 @@ async function sendNewItemsEmail(newItems, stats) {
     const info = await transporter.sendMail({
       from: process.env.EMAIL_FROM,
       to: recipients,
-      subject: `[Caixa Monitor] ${stats.totalNew} imóvel(is) novo(s) com desconto > 40% — ${stats.date}`,
+      subject: `[Caixa Monitor] ${stats.totalNew} imóvel(is) novo(s) com desconto maior que 40% — ${stats.date}`,
       html,
     });
 

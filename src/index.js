@@ -7,7 +7,7 @@ const { sendNewItemsEmail } = require('./mailer');
 const { logger, CRON_SCHEDULE } = require('./config');
 
 function today() {
-  return new Date().toISOString().slice(0, 10);
+  return new Date().toLocaleDateString('pt-BR');
 }
 
 async function main() {
