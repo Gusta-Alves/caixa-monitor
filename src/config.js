@@ -23,7 +23,7 @@ const logger = winston.createLogger({
 
 const CAIXA_URL = 'https://venda-imoveis.caixa.gov.br/listaweb/Lista_imoveis_SP.csv';
 const ESTADO = 'SP';
-const DESCONTO_MINIMO = 40;
+const DESCONTO_MINIMO = 50;
 const CRON_SCHEDULE = process.env.CRON_SCHEDULE || '0 8 * * *';
 const MAX_RETRIES = 3;
 

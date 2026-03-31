@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
 const Handlebars = require('handlebars');
-const { logger } = require('./config');
+const { logger, DESCONTO_MINIMO } = require('./config');
 
 const TEMPLATE_PATH = path.resolve(__dirname, '..', 'templates', 'email.hbs');
 
@@ -42,7 +42,7 @@ async function sendNewItemsEmail(newItems, stats) {
   try {
     const template = loadTemplate();
     const sorted = [...newItems].sort((a, b) => b.desconto - a.desconto);
-    const html = template({ newItems: sorted, ...stats });
+    const html = template({ newItems: sorted, ...stats, descontoMinimo: DESCONTO_MINIMO });
 
     const transporter = createTransport();
     const recipients = process.env.EMAIL_TO.split(',').map((e) => e.trim()).join(', ');
@@ -50,7 +50,7 @@ async function sendNewItemsEmail(newItems, stats) {
     const info = await transporter.sendMail({
       from: process.env.EMAIL_FROM,
       to: recipients,
-      subject: `[Caixa Monitor] ${stats.totalNew} imóvel(is) novo(s) com desconto maior que 40% — ${stats.date}`,
+      subject: `[Caixa Monitor] ${stats.totalNew} imóvel(is) novo(s) com desconto a partir de ${DESCONTO_MINIMO}% — ${stats.date}`,
       html,
     });
 

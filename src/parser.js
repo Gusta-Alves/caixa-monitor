@@ -1,6 +1,6 @@
 const { logger } = require('./config');
 
-const DESCONTO_MIN = 40;
+const DESCONTO_MIN = 50;
 
 function parseAndFilter(csvString) {
   if (!csvString || !csvString.trim()) {
@@ -28,7 +28,7 @@ function parseAndFilter(csvString) {
 
     const desconto = parseFloat(cols[7]);
 
-    if (isNaN(desconto) || desconto <= DESCONTO_MIN) {
+    if (isNaN(desconto) || desconto < DESCONTO_MIN) {
       continue;
     }
 
@@ -47,7 +47,7 @@ function parseAndFilter(csvString) {
   }
 
   logger.info(
-    `Parser: ${dataLines.length} linhas processadas, ${results.length} imóveis com desconto > ${DESCONTO_MIN}%.`
+    `Parser: ${dataLines.length} linhas processadas, ${results.length} imóveis com desconto a partir de ${DESCONTO_MIN}%.`
   );
 
   return results;

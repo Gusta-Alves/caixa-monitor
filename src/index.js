@@ -4,7 +4,7 @@ const { downloadCSV } = require('./downloader');
 const { parseAndFilter } = require('./parser');
 const { findNewItems } = require('./comparator');
 const { sendNewItemsEmail } = require('./mailer');
-const { logger, CRON_SCHEDULE } = require('./config');
+const { logger, CRON_SCHEDULE, DESCONTO_MINIMO } = require('./config');
 
 function today() {
   return new Date().toLocaleDateString('pt-BR');
@@ -22,7 +22,7 @@ async function main() {
     }
 
     const filtered = parseAndFilter(csv);
-    logger.info(`${filtered.length} imóvel(is) com desconto > 40%.`);
+    logger.info(`${filtered.length} imóvel(is) com desconto a partir de ${DESCONTO_MINIMO}%.`);
 
     if (process.env.FORCE_TEST_EMAIL === 'true') {
       const sample = filtered.slice(0, 3);

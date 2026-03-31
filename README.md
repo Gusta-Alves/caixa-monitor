@@ -1,6 +1,6 @@
 # Monitor Caixa Imóveis SP
 
-Robô que monitora diariamente os imóveis da Caixa Econômica Federal em São Paulo e envia um e-mail quando aparecem **novos imóveis com desconto acima de 40%**.
+Robô que monitora diariamente os imóveis da Caixa Econômica Federal em São Paulo e envia um e-mail quando aparecem **novos imóveis com desconto a partir de 50%**.
 
 ---
 
@@ -8,7 +8,7 @@ Robô que monitora diariamente os imóveis da Caixa Econômica Federal em São P
 ```
 Todo dia às 8h (Brasília)
   → Baixa o CSV oficial da Caixa (SP)
-  → Filtra imóveis com desconto > 40%
+  → Filtra imóveis com desconto >= 50%
   → Compara com a lista do dia anterior
   → Se houver novidades → envia e-mail HTML
   → Salva a lista atual no repositório (previous.json)
