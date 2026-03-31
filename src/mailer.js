@@ -41,7 +41,8 @@ async function sendNewItemsEmail(newItems, stats) {
 
   try {
     const template = loadTemplate();
-    const html = template({ newItems, ...stats });
+    const sorted = [...newItems].sort((a, b) => b.desconto - a.desconto);
+    const html = template({ newItems: sorted, ...stats });
 
     const transporter = createTransport();
     const recipients = process.env.EMAIL_TO.split(',').map((e) => e.trim()).join(', ');
