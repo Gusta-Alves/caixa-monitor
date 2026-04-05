@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Plan {
+  free
+  premium
+}
+
+enum AlertStatus {
+  sent
+  failed
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  name          String?
+  plan          Plan     @default(free)
+  isActive      Boolean  @default(true) @map("is_active")
+  emailVerified Boolean  @default(false) @map("email_verified")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  states    UserState[]
+  alertLogs AlertLog[]
+
+  @@map("users")
+}
+
+model UserState {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  stateCode String   @map("state_code") @db.Char(2)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, stateCode])
+  @@map("user_states")
+}
+
+model PropertySnapshot {
+  id           String   @id @default(uuid())
+  stateCode    String   @map("state_code") @db.Char(2)
+  propertyId   String   @map("property_id") @db.VarChar(20)
+  discount     Decimal  @db.Decimal(5, 2)
+  price        String   @db.VarChar(20)
+  city         String   @db.VarChar(100)
+  link         String
+  snapshotDate DateTime @map("snapshot_date") @db.Date
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([stateCode, snapshotDate])
+  @@map("properties_snapshot")
+}
+
+model AlertLog {
+  id        String      @id @default(uuid())
+  userId    String      @map("user_id")
+  stateCode String      @map("state_code") @db.Char(2)
+  itemsSent Int         @map("items_sent")
+  sentAt    DateTime    @default(now()) @map("sent_at")
+  status    AlertStatus
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("alert_logs")
+}
