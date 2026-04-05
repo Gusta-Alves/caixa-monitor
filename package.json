@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "tsx src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -10,7 +11,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^5.22.0",
+    "@prisma/adapter-pg": "^7.6.0",
+    "@prisma/client": "^7.6.0",
     "axios": "^1.13.6",
     "axios-retry": "^4.5.0",
     "csv-parser": "^3.2.0",
@@ -19,7 +21,8 @@
     "iconv-lite": "^0.7.2",
     "node-cron": "^4.2.1",
     "nodemailer": "^8.0.3",
-    "prisma": "^5.22.0",
+    "pg": "^8.20.0",
+    "prisma": "^7.6.0",
     "tsx": "^4.21.0",
     "winston": "^3.19.0"
   }
