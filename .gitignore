@@ -1,6 +1,6 @@
 node_modules/
 .env
 logs/
-data/*
-!data/previous.json
-!data/.gitkeep
+data/
+
+/src/generated/prisma

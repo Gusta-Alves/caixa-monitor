@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const nodemailer = require('nodemailer');
 const Handlebars = require('handlebars');
+const prisma = require('./db');
 const { logger, DESCONTO_MINIMO } = require('./config');
 
 const TEMPLATE_PATH = path.resolve(__dirname, '..', 'templates', 'email.hbs');
@@ -33,31 +34,32 @@ function createTransport() {
   });
 }
 
-async function sendNewItemsEmail(newItems, stats) {
+async function sendNewItemsEmail(newItems, stats, recipientEmail) {
   if (!newItems || newItems.length === 0) {
     logger.info('Nenhum imóvel novo — e-mail não enviado.');
     return;
   }
 
-  try {
-    const template = loadTemplate();
-    const sorted = [...newItems].sort((a, b) => b.desconto - a.desconto);
-    const html = template({ newItems: sorted, ...stats, descontoMinimo: DESCONTO_MINIMO });
+  const template = loadTemplate();
+  const sorted = [...newItems].sort((a, b) => b.desconto - a.desconto);
+  const html = template({ newItems: sorted, ...stats, descontoMinimo: DESCONTO_MINIMO });
 
-    const transporter = createTransport();
-    const recipients = process.env.EMAIL_TO.split(',').map((e) => e.trim()).join(', ');
+  const transporter = createTransport();
 
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
-      to: recipients,
-      subject: `[Caixa Monitor] ${stats.totalNew} imóvel(is) novo(s) com desconto a partir de ${DESCONTO_MINIMO}% — ${stats.date}`,
-      html,
-    });
+  const info = await transporter.sendMail({
+    from: process.env.EMAIL_FROM,
+    to: recipientEmail,
+    subject: `[Caixa Monitor] ${stats.totalNew} imóvel(is) novo(s) com desconto a partir de ${DESCONTO_MINIMO}% — ${stats.date}`,
+    html,
+  });
 
-    logger.info(`E-mail enviado com sucesso. Message-ID: ${info.messageId}`);
-  } catch (err) {
-    logger.error(`Falha ao enviar e-mail: ${err.message}`);
-  }
+  logger.info(`E-mail enviado para ${recipientEmail}. Message-ID: ${info.messageId}`);
 }
 
-module.exports = { sendNewItemsEmail };
+async function logAlert(userId, stateCode, itemsSent, status) {
+  await prisma.alertLog.create({
+    data: { userId, stateCode, itemsSent, status },
+  });
+}
+
+module.exports = { sendNewItemsEmail, logAlert };
