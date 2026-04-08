@@ -22,10 +22,11 @@ model User {
   email         String   @unique
   name          String?
   plan          Plan     @default(free)
-  isActive      Boolean  @default(true) @map("is_active")
-  emailVerified Boolean  @default(false) @map("email_verified")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  isActive         Boolean  @default(true) @map("is_active")
+  emailVerified    Boolean  @default(false) @map("email_verified")
+  unsubscribeToken String   @unique @default(uuid()) @map("unsubscribe_token")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
 
   states    UserState[]
   alertLogs AlertLog[]

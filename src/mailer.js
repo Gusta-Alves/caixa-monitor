@@ -34,26 +34,28 @@ function createTransport() {
   });
 }
 
-async function sendNewItemsEmail(newItems, stats, recipientEmail) {
+async function sendNewItemsEmail(newItems, stats, user) {
   if (!newItems || newItems.length === 0) {
     logger.info('Nenhum imóvel novo — e-mail não enviado.');
     return;
   }
 
+  const unsubscribeUrl = `${process.env.APP_URL}/api/unsubscribe?token=${user.unsubscribeToken}`;
+
   const template = loadTemplate();
   const sorted = [...newItems].sort((a, b) => b.desconto - a.desconto);
-  const html = template({ newItems: sorted, ...stats, descontoMinimo: DESCONTO_MINIMO });
+  const html = template({ newItems: sorted, ...stats, descontoMinimo: DESCONTO_MINIMO, unsubscribeUrl });
 
   const transporter = createTransport();
 
   const info = await transporter.sendMail({
     from: process.env.EMAIL_FROM,
-    to: recipientEmail,
+    to: user.email || process.env.EMAIL_TO,
     subject: `[Caixa Monitor] ${stats.totalNew} imóvel(is) novo(s) com desconto a partir de ${DESCONTO_MINIMO}% — ${stats.date}`,
     html,
   });
 
-  logger.info(`E-mail enviado para ${recipientEmail}. Message-ID: ${info.messageId}`);
+  logger.info(`E-mail enviado para ${user.email}. Message-ID: ${info.messageId}`);
 }
 
 async function logAlert(userId, stateCode, itemsSent, status) {

@@ -58,7 +58,7 @@ async function main() {
 
       const usersForState = await prisma.userState.findMany({
         where: { stateCode },
-        include: { user: { select: { id: true, email: true, plan: true, isActive: true } } },
+        include: { user: { select: { id: true, email: true, plan: true, isActive: true, unsubscribeToken: true } } },
       });
 
       const activeUsers = usersForState.filter((us) => us.user.isActive);
@@ -78,7 +78,7 @@ async function main() {
         }
 
         try {
-          await sendNewItemsEmail(newItems, { totalFiltered, totalNew, date: today() }, user.email);
+          await sendNewItemsEmail(newItems, { totalFiltered, totalNew, date: today() }, user);
           await logAlert(user.id, stateCode, totalNew, 'sent');
         } catch (err) {
           logger.error(`Falha ao enviar para ${user.email} (${stateCode}): ${err.message}`);
